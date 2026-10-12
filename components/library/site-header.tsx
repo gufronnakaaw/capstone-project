@@ -1,21 +1,21 @@
-"use client";
+'use client';
 
-import Link from "next/link";
-import { usePathname } from "next/navigation";
-import { ArrowUpRight, BookOpen, ChevronDown, Menu, X } from "lucide-react";
-import { useEffect, useState } from "react";
+import { ArrowUpRight, BookOpen, ChevronDown, Menu, X } from 'lucide-react';
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';
+import { useEffect, useState } from 'react';
 
 const publicRoutes = [
-  { label: "Koleksi", href: "/buku" },
-  { label: "Kegiatan", href: "/kegiatan" },
-  { label: "Program", href: "/proker" },
-  { label: "Galeri", href: "/galeri" },
+  { label: 'Koleksi', href: '/buku' },
+  { label: 'Kegiatan', href: '/kegiatan' },
+  { label: 'Program', href: '/proker' },
+  { label: 'Galeri', href: '/galeri' },
 ];
 
 const roleRoutes = [
-  { label: "Anggota", href: "/dashboard" },
-  { label: "Pustakawan", href: "/pustakawan" },
-  { label: "Admin", href: "/admin" },
+  { label: 'Anggota', href: '/dashboard' },
+  { label: 'Pustakawan', href: '/pustakawan' },
+  { label: 'Admin', href: '/admin' },
 ];
 
 export function SiteHeader() {
@@ -23,20 +23,20 @@ export function SiteHeader() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [rolesOpen, setRolesOpen] = useState(false);
   const [hasScrolled, setHasScrolled] = useState(false);
-  const isHome = pathname === "/";
+  const isHome = pathname === '/';
 
   useEffect(() => {
     const updateHeader = () => setHasScrolled(window.scrollY > 12);
     updateHeader();
-    window.addEventListener("scroll", updateHeader, { passive: true });
-    return () => window.removeEventListener("scroll", updateHeader);
+    window.addEventListener('scroll', updateHeader, { passive: true });
+    return () => window.removeEventListener('scroll', updateHeader);
   }, []);
 
   const usesDefaultSurface = !isHome || hasScrolled || mobileOpen;
 
   return (
     <header
-      className={`sticky top-0 z-40 border-b bg-background transition-colors duration-300 ${usesDefaultSurface ? "ink-rule" : "border-transparent"}`}
+      className={`sticky top-0 z-40 border-b bg-background transition-colors duration-300 ${usesDefaultSurface ? 'ink-rule' : 'border-transparent'}`}
     >
       <div className="mx-auto flex h-[4.5rem] max-w-7xl items-center justify-between gap-4 px-5 sm:px-8 lg:px-12">
         <Link
@@ -63,8 +63,8 @@ export function SiteHeader() {
               <Link
                 key={route.href}
                 href={route.href}
-                aria-current={active ? "page" : undefined}
-                className={`border-b-2 py-6 text-sm font-semibold transition-colors ${active ? "border-primary text-primary" : "border-transparent text-muted-foreground hover:text-primary"}`}
+                aria-current={active ? 'page' : undefined}
+                className={`border-b-2 py-6 text-sm font-semibold transition-colors ${active ? 'border-primary text-primary' : 'border-transparent text-muted-foreground hover:text-primary'}`}
               >
                 {route.label}
               </Link>
@@ -87,13 +87,13 @@ export function SiteHeader() {
               aria-controls="role-menu"
               className="inline-flex min-h-9 items-center gap-1 rounded-md px-2 text-xs font-semibold text-primary hover:bg-secondary"
             >
-              Mode demo{" "}
+              Mode{' '}
               <ChevronDown
                 size={14}
                 className={
                   rolesOpen
-                    ? "rotate-180 transition-transform"
-                    : "transition-transform"
+                    ? 'rotate-180 transition-transform'
+                    : 'transition-transform'
                 }
               />
             </button>
@@ -124,7 +124,7 @@ export function SiteHeader() {
             onClick={() => setMobileOpen((value) => !value)}
             aria-expanded={mobileOpen}
             aria-controls="mobile-nav"
-            aria-label={mobileOpen ? "Tutup navigasi" : "Buka navigasi"}
+            aria-label={mobileOpen ? 'Tutup navigasi' : 'Buka navigasi'}
           >
             {mobileOpen ? <X size={20} /> : <Menu size={20} />}
           </button>
@@ -147,8 +147,8 @@ export function SiteHeader() {
                   key={route.href}
                   href={route.href}
                   onClick={() => setMobileOpen(false)}
-                  aria-current={active ? "page" : undefined}
-                  className={`block border-b ink-rule py-3.5 text-sm font-semibold ${active ? "text-primary" : "text-muted-foreground"}`}
+                  aria-current={active ? 'page' : undefined}
+                  className={`block border-b ink-rule py-3.5 text-sm font-semibold ${active ? 'text-primary' : 'text-muted-foreground'}`}
                 >
                   {route.label}
                 </Link>

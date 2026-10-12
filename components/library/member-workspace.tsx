@@ -1,6 +1,6 @@
-"use client";
+'use client';
 
-import Link from "next/link";
+import { activities, books, loans } from '@/lib/mock-data/library';
 import {
   ArrowRight,
   ArrowUpRight,
@@ -12,27 +12,32 @@ import {
   House,
   Search,
   UserRound,
-} from "lucide-react";
-import { activities, books, loans } from "@/lib/mock-data/library";
-import { StatusBadge, formatDate } from "./ui";
+} from 'lucide-react';
+import Link from 'next/link';
+import { StatusBadge, formatDate } from './ui';
 
 type MemberView =
-  "overview" | "loans" | "profile" | "books" | "members" | "programs";
+  | 'overview'
+  | 'loans'
+  | 'profile'
+  | 'books'
+  | 'members'
+  | 'programs';
 
 const navigation = [
-  { href: "/dashboard", label: "Beranda", view: "overview", icon: House },
+  { href: '/dashboard', label: 'Beranda', view: 'overview', icon: House },
   {
-    href: "/dashboard/pinjaman",
-    label: "Pinjaman",
-    view: "loans",
+    href: '/dashboard/pinjaman',
+    label: 'Pinjaman',
+    view: 'loans',
     icon: BookOpenCheck,
   },
-  { href: "/buku", label: "Cari buku", view: "books", icon: Search },
+  { href: '/buku', label: 'Cari buku', view: 'books', icon: Search },
 ] as const;
 
 export function MemberWorkspace({ view }: { view: MemberView }) {
   const active = loans.filter(
-    (loan) => loan.memberId === "member-01" && loan.status !== "returned",
+    (loan) => loan.memberId === 'member-01' && loan.status !== 'returned',
   );
   return (
     <div className="min-h-screen bg-background">
@@ -45,12 +50,12 @@ export function MemberWorkspace({ view }: { view: MemberView }) {
             <span className="grid size-8 place-items-center rounded-lg bg-primary text-primary-foreground">
               <BookOpen size={17} />
             </span>
-            ruang baca desa.
+            Pusakanagara.
           </Link>
           <Link
             href="/dashboard/profil"
-            aria-current={view === "profile" ? "page" : undefined}
-            className={`flex items-center gap-2 rounded-lg px-2 py-2 text-xs font-semibold ${view === "profile" ? "bg-secondary text-primary" : "text-muted-foreground hover:text-primary"}`}
+            aria-current={view === 'profile' ? 'page' : undefined}
+            className={`flex items-center gap-2 rounded-lg px-2 py-2 text-xs font-semibold ${view === 'profile' ? 'bg-secondary text-primary' : 'text-muted-foreground hover:text-primary'}`}
           >
             <UserRound size={16} />
             Siti Rahma
@@ -72,8 +77,8 @@ export function MemberWorkspace({ view }: { view: MemberView }) {
                   <Link
                     key={item.href}
                     href={item.href}
-                    aria-current={activeItem ? "page" : undefined}
-                    className={`flex min-h-11 items-center gap-3 rounded-lg px-3 text-sm font-semibold transition-colors ${activeItem ? "bg-primary text-primary-foreground" : "text-muted-foreground hover:bg-secondary hover:text-primary"}`}
+                    aria-current={activeItem ? 'page' : undefined}
+                    className={`flex min-h-11 items-center gap-3 rounded-lg px-3 text-sm font-semibold transition-colors ${activeItem ? 'bg-primary text-primary-foreground' : 'text-muted-foreground hover:bg-secondary hover:text-primary'}`}
                   >
                     <Icon size={17} strokeWidth={1.8} />
                     {item.label}
@@ -86,7 +91,7 @@ export function MemberWorkspace({ view }: { view: MemberView }) {
                 Butuh bantuan?
               </p>
               <p className="mt-2 text-xs leading-5 text-muted-foreground">
-                Datang ke Balai Desa Sukamaju saat jam kunjung.
+                Datang ke Pusakanagara, Baregbeg, Ciamis saat jam kunjung.
               </p>
             </div>
           </nav>
@@ -95,9 +100,9 @@ export function MemberWorkspace({ view }: { view: MemberView }) {
           id="konten-utama"
           className="mx-auto w-full max-w-6xl px-5 py-10 pb-24 sm:px-8 lg:px-10 lg:py-14 lg:pb-14"
         >
-          {view === "overview" && <MemberOverview active={active} />}
-          {view === "loans" && <MemberLoans active={active} />}
-          {view === "profile" && <MemberProfile />}
+          {view === 'overview' && <MemberOverview active={active} />}
+          {view === 'loans' && <MemberLoans active={active} />}
+          {view === 'profile' && <MemberProfile />}
         </main>
       </div>
       <nav
@@ -111,8 +116,8 @@ export function MemberWorkspace({ view }: { view: MemberView }) {
             <Link
               key={item.href}
               href={item.href}
-              aria-current={activeItem ? "page" : undefined}
-              className={`flex min-h-12 flex-col items-center justify-center gap-1 rounded-md text-[10px] font-semibold transition-colors ${activeItem ? "bg-secondary text-primary" : "text-muted-foreground"}`}
+              aria-current={activeItem ? 'page' : undefined}
+              className={`flex min-h-12 flex-col items-center justify-center gap-1 rounded-md text-[10px] font-semibold transition-colors ${activeItem ? 'bg-secondary text-primary' : 'text-muted-foreground'}`}
             >
               <Icon size={17} strokeWidth={1.8} />
               {item.label}
@@ -128,7 +133,7 @@ function MemberOverview({ active }: { active: typeof loans }) {
   const loan = active[0];
   const book = books.find((item) => item.id === loan?.bookId);
   const completed = loans.filter(
-    (item) => item.memberId === "member-01" && item.status === "returned",
+    (item) => item.memberId === 'member-01' && item.status === 'returned',
   );
   const nextActivity = activities[0];
   return (
@@ -149,7 +154,7 @@ function MemberOverview({ active }: { active: typeof loans }) {
                 Pinjaman aktif
               </p>
               <h2 className="mt-3 text-2xl font-semibold tracking-tight sm:text-3xl">
-                {book && loan ? book.title : "Belum ada buku yang dipinjam"}
+                {book && loan ? book.title : 'Belum ada buku yang dipinjam'}
               </h2>
               {book && (
                 <p className="mt-2 text-sm text-primary-foreground/70">
@@ -184,10 +189,10 @@ function MemberOverview({ active }: { active: typeof loans }) {
               </span>
             )}
             <Link
-              href={loan ? "/dashboard/pinjaman" : "/buku"}
+              href={loan ? '/dashboard/pinjaman' : '/buku'}
               className="inline-flex min-h-10 items-center gap-2 rounded-lg bg-card px-4 text-sm font-semibold text-primary transition-transform hover:-translate-y-0.5"
             >
-              {loan ? "Lihat detail pinjaman" : "Cari buku"}{" "}
+              {loan ? 'Lihat detail pinjaman' : 'Cari buku'}{' '}
               <ArrowRight size={16} />
             </Link>
           </div>
@@ -209,7 +214,7 @@ function MemberOverview({ active }: { active: typeof loans }) {
               Butuh bantuan?
             </p>
             <p className="mt-2 text-sm leading-6 text-primary">
-              Datang ke Balai Desa Sukamaju saat jam kunjung.
+              Datang ke Pusakanagara, Baregbeg, Ciamis saat jam kunjung.
             </p>
           </div>
         </section>
@@ -219,13 +224,13 @@ function MemberOverview({ active }: { active: typeof loans }) {
         <div className="rounded-lg border ink-rule bg-card p-5">
           <p className="text-xs text-muted-foreground">Sedang dipinjam</p>
           <p className="mt-3 text-3xl font-semibold text-primary tabular-nums">
-            {active.length.toString().padStart(2, "0")}
+            {active.length.toString().padStart(2, '0')}
           </p>
         </div>
         <div className="rounded-lg border ink-rule bg-card p-5">
           <p className="text-xs text-muted-foreground">Buku selesai dibaca</p>
           <p className="mt-3 text-3xl font-semibold text-primary tabular-nums">
-            {completed.length.toString().padStart(2, "0")}
+            {completed.length.toString().padStart(2, '0')}
           </p>
         </div>
         <section className="rounded-lg border ink-rule bg-card p-5">
@@ -241,7 +246,7 @@ function MemberOverview({ active }: { active: typeof loans }) {
                 {nextActivity.title}
               </h2>
               <p className="mt-1 text-xs leading-5 text-muted-foreground">
-                {formatDate(nextActivity.date)} · Balai Desa Sukamaju
+                {formatDate(nextActivity.date)} · Pusakanagara, Baregbeg, Ciamis
               </p>
               <Link href="/kegiatan" className="link-arrow mt-3 text-xs">
                 Lihat kegiatan <ArrowUpRight size={14} />
@@ -256,7 +261,7 @@ function MemberOverview({ active }: { active: typeof loans }) {
 
 function MemberLoans({ active }: { active: typeof loans }) {
   const history = loans.filter(
-    (loan) => loan.memberId === "member-01" && loan.status === "returned",
+    (loan) => loan.memberId === 'member-01' && loan.status === 'returned',
   );
   return (
     <>
@@ -303,8 +308,8 @@ function MemberLoans({ active }: { active: typeof loans }) {
                 <div>
                   <p className="font-semibold text-primary">{book?.title}</p>
                   <p className="mt-1 text-xs text-muted-foreground">
-                    Dikembalikan{" "}
-                    {loan.returnedAt ? formatDate(loan.returnedAt) : "—"}
+                    Dikembalikan{' '}
+                    {loan.returnedAt ? formatDate(loan.returnedAt) : '—'}
                   </p>
                 </div>
                 <StatusBadge status={loan.status} />

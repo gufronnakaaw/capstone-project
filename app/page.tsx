@@ -1,10 +1,10 @@
-import Image from "next/image";
-import Link from "next/link";
-import { ArrowRight, ArrowUpRight } from "lucide-react";
-import { Footer } from "@/components/library/footer";
-import { SiteHeader } from "@/components/library/site-header";
-import { ProkerCard, formatDate } from "@/components/library/ui";
-import { libraryService } from "@/lib/services/library-service";
+import { Footer } from '@/components/library/footer';
+import { SiteHeader } from '@/components/library/site-header';
+import { ProkerCard, formatDate } from '@/components/library/ui';
+import { libraryService } from '@/lib/services/library-service';
+import { ArrowRight, ArrowUpRight } from 'lucide-react';
+import Image from 'next/image';
+import Link from 'next/link';
 
 export default function Home() {
   const photos = libraryService.getPhotos();
@@ -21,10 +21,10 @@ export default function Home() {
             <div className="px-5 pb-10 pt-14 sm:px-8 sm:pt-20 lg:flex lg:flex-col lg:justify-center lg:pl-12 lg:pr-16 lg:pb-16 lg:pt-20 xl:pr-20">
               <div className="max-w-[31rem]">
                 <h1 className="max-w-[30rem] text-[clamp(2.85rem,4.65vw,5.25rem)] font-semibold leading-[1.08] tracking-[-.06em] text-primary text-balance">
-                  Cerita punya{" "}
+                  Cerita punya{' '}
                   <span className="font-editorial font-normal italic tracking-[-.055em]">
                     rumah
-                  </span>{" "}
+                  </span>{' '}
                   di sini.
                 </h1>
                 <p className="mt-6 max-w-[27rem] text-[.95rem] leading-7 text-muted-foreground sm:text-base sm:leading-7">
@@ -188,7 +188,7 @@ export default function Home() {
               {programs.slice(0, 4).map((program, index) => (
                 <div
                   key={program.id}
-                  className={index === 0 ? "md:col-span-2 lg:col-span-2" : ""}
+                  className={index === 0 ? 'md:col-span-2 lg:col-span-2' : ''}
                 >
                   <ProkerCard proker={program} />
                 </div>

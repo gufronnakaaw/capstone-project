@@ -21,7 +21,7 @@ export function LibraryHero({ photos }: { photos: Photo[] }) {
       <div className="mx-auto grid max-w-7xl lg:min-h-[640px] lg:grid-cols-[1.02fr_.98fr]">
         <div className="flex flex-col justify-between px-5 py-12 sm:px-8 lg:px-12 lg:py-16">
           <div>
-            <p className="eyebrow">Perpustakaan Desa Sukamaju · Sejak 2004</p>
+            <p className="eyebrow">Perpustakaan Desa Pusakanagara</p>
             <h1 className="display-title mt-5 max-w-2xl text-5xl text-primary sm:text-6xl lg:text-7xl">
               Tempat cerita pulang dan tumbuh.
             </h1>

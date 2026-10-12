@@ -140,6 +140,6 @@ export const formatDate = (date: string) =>
 export const Location = () => (
   <span className="inline-flex items-center gap-1 text-xs font-bold text-muted-foreground">
     <MapPin size={13} />
-    Balai Desa Sukamaju
+    Desa Pusakanagara
   </span>
 );

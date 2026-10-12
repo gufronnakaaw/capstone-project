@@ -1,7 +1,13 @@
-"use client";
+'use client';
 
-import Link from "next/link";
-import { usePathname } from "next/navigation";
+import {
+  activities,
+  books,
+  loans,
+  members,
+  prokers,
+} from '@/lib/mock-data/library';
+import type { Book, LoanStatus } from '@/lib/mock-data/types';
 import {
   ArrowUpRight,
   BookCopy,
@@ -16,73 +22,67 @@ import {
   Plus,
   Users,
   X,
-} from "lucide-react";
-import { useState } from "react";
-import {
-  activities,
-  books,
-  loans,
-  members,
-  prokers,
-} from "@/lib/mock-data/library";
-import type { Book, LoanStatus } from "@/lib/mock-data/types";
-import { Catalog } from "./catalog";
-import { MemberWorkspace } from "./member-workspace";
-import { StatusBadge, formatDate } from "./ui";
+} from 'lucide-react';
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';
+import { useState } from 'react';
+import { Catalog } from './catalog';
+import { MemberWorkspace } from './member-workspace';
+import { StatusBadge, formatDate } from './ui';
 
-type Role = "member" | "librarian" | "admin";
+type Role = 'member' | 'librarian' | 'admin';
 const names = {
-  member: "Siti Rahma",
-  librarian: "Ratna Pustaka",
-  admin: "Dewi Lestari",
+  member: 'Siti Rahma',
+  librarian: 'Ratna Pustaka',
+  admin: 'Dewi Lestari',
 };
 const sidebar = {
   member: [
-    { href: "/dashboard", label: "Beranda", icon: Library },
+    { href: '/dashboard', label: 'Beranda', icon: Library },
     {
-      href: "/dashboard/pinjaman",
-      label: "Pinjaman saya",
+      href: '/dashboard/pinjaman',
+      label: 'Pinjaman saya',
       icon: BookOpenCheck,
     },
-    { href: "/dashboard/profil", label: "Profil saya", icon: Users },
-    { href: "/buku", label: "Cari buku", icon: BookCopy },
-    { href: "/kegiatan", label: "Kegiatan", icon: CalendarDays },
+    { href: '/dashboard/profil', label: 'Profil saya', icon: Users },
+    { href: '/buku', label: 'Cari buku', icon: BookCopy },
+    { href: '/kegiatan', label: 'Kegiatan', icon: CalendarDays },
   ],
   librarian: [
-    { href: "/pustakawan", label: "Ringkasan", icon: Library },
-    { href: "/pustakawan/transaksi", label: "Transaksi", icon: ClipboardList },
-    { href: "/pustakawan/buku", label: "Koleksi buku", icon: BookCopy },
-    { href: "/pustakawan/anggota", label: "Data anggota", icon: Users },
+    { href: '/pustakawan', label: 'Ringkasan', icon: Library },
+    { href: '/pustakawan/transaksi', label: 'Transaksi', icon: ClipboardList },
+    { href: '/pustakawan/buku', label: 'Koleksi buku', icon: BookCopy },
+    { href: '/pustakawan/anggota', label: 'Data anggota', icon: Users },
   ],
   admin: [
-    { href: "/admin", label: "Ringkasan", icon: Library },
-    { href: "/admin/transaksi", label: "Transaksi", icon: ClipboardList },
-    { href: "/admin/buku", label: "Koleksi buku", icon: BookCopy },
-    { href: "/admin/anggota", label: "Data anggota", icon: Users },
+    { href: '/admin', label: 'Ringkasan', icon: Library },
+    { href: '/admin/transaksi', label: 'Transaksi', icon: ClipboardList },
+    { href: '/admin/buku', label: 'Koleksi buku', icon: BookCopy },
+    { href: '/admin/anggota', label: 'Data anggota', icon: Users },
     {
-      href: "/admin/kegiatan",
-      label: "Kegiatan & program",
+      href: '/admin/kegiatan',
+      label: 'Kegiatan & program',
       icon: CalendarDays,
     },
-    { href: "/admin/galeri", label: "Dokumentasi", icon: Images },
+    { href: '/admin/galeri', label: 'Dokumentasi', icon: Images },
   ],
 };
 
 export function Workspace({
   role,
-  view = "overview",
+  view = 'overview',
 }: {
   role: Role;
-  view?: "overview" | "loans" | "books" | "members" | "programs" | "profile";
+  view?: 'overview' | 'loans' | 'books' | 'members' | 'programs' | 'profile';
 }) {
   const pathname = usePathname();
   const [menuOpen, setMenuOpen] = useState(false);
   const [loanRows, setLoanRows] = useState(loans);
   const [memberRows, setMemberRows] = useState(members);
   const [addOpen, setAddOpen] = useState(false);
-  const isMember = role === "member";
+  const isMember = role === 'member';
   const currentLoans = isMember
-    ? loanRows.filter((loan) => loan.memberId === "member-01")
+    ? loanRows.filter((loan) => loan.memberId === 'member-01')
     : loanRows;
   const updateLoan = (id: string) =>
     setLoanRows((rows) =>
@@ -90,23 +90,23 @@ export function Workspace({
         loan.id === id
           ? {
               ...loan,
-              status: "returned" as LoanStatus,
-              returnedAt: "2026-09-27",
+              status: 'returned' as LoanStatus,
+              returnedAt: '2026-09-27',
             }
           : loan,
       ),
     );
   const label =
-    role === "member"
-      ? "Ruang anggota"
-      : role === "librarian"
-        ? "Meja pustakawan"
-        : "Ruang pengelola";
-  if (String(role) === "member") return <MemberWorkspace view={view} />;
+    role === 'member'
+      ? 'Ruang anggota'
+      : role === 'librarian'
+        ? 'Meja pustakawan'
+        : 'Ruang pengelola';
+  if (String(role) === 'member') return <MemberWorkspace view={view} />;
   return (
     <div className="workspace-shell min-h-screen bg-background lg:grid lg:grid-cols-[252px_minmax(0,1fr)]">
       <aside
-        className={`fixed inset-y-0 left-0 z-50 flex w-64 flex-col border-r border-sidebar-border bg-sidebar px-4 py-6 text-sidebar-foreground transition-transform lg:sticky lg:top-0 lg:h-screen lg:w-auto lg:translate-x-0 ${menuOpen ? "translate-x-0" : "-translate-x-full"}`}
+        className={`fixed inset-y-0 left-0 z-50 flex w-64 flex-col border-r border-sidebar-border bg-sidebar px-4 py-6 text-sidebar-foreground transition-transform lg:sticky lg:top-0 lg:h-screen lg:w-auto lg:translate-x-0 ${menuOpen ? 'translate-x-0' : '-translate-x-full'}`}
       >
         <Link
           href="/"
@@ -115,7 +115,7 @@ export function Workspace({
           <span className="grid size-9 place-items-center rounded-lg bg-primary text-primary-foreground">
             <BookOpenCheck size={19} />
           </span>
-          ruang baca desa.
+          Pusakanagara.
         </Link>
         <p className="mt-8 px-3 text-[10px] font-bold uppercase tracking-[.15em] text-muted-foreground">
           {label}
@@ -127,8 +127,8 @@ export function Workspace({
             return (
               <Link
                 onClick={() => setMenuOpen(false)}
-                aria-current={active ? "page" : undefined}
-                className={`flex min-h-11 items-center gap-3 rounded-lg px-3 text-sm font-semibold transition-colors ${active ? "bg-primary text-primary-foreground" : "text-sidebar-foreground/75 hover:bg-sidebar-accent hover:text-sidebar-accent-foreground"}`}
+                aria-current={active ? 'page' : undefined}
+                className={`flex min-h-11 items-center gap-3 rounded-lg px-3 text-sm font-semibold transition-colors ${active ? 'bg-primary text-primary-foreground' : 'text-sidebar-foreground/75 hover:bg-sidebar-accent hover:text-sidebar-accent-foreground'}`}
                 href={item.href}
                 key={item.href}
               >
@@ -141,7 +141,7 @@ export function Workspace({
         <div className="mt-auto border-t border-sidebar-border px-2 pt-5">
           <p className="text-sm font-semibold">{names[role]}</p>
           <p className="mt-1 text-xs text-muted-foreground">
-            {role === "admin" ? "Administrator" : "Pustakawan"}
+            {role === 'admin' ? 'Administrator' : 'Pustakawan'}
           </p>
           <Link
             href="/"
@@ -176,16 +176,16 @@ export function Workspace({
           </Link>
         </header>
         <div className="mx-auto max-w-6xl px-5 py-10 sm:px-8 lg:px-10 lg:py-12">
-          {view === "overview" && <Overview role={role} loanRows={loanRows} />}
-          {view === "loans" && (
+          {view === 'overview' && <Overview role={role} loanRows={loanRows} />}
+          {view === 'loans' && (
             <Loans
               isMember={isMember}
               loans={currentLoans}
               onReturn={updateLoan}
             />
           )}
-          {view === "books" && <BooksManager management={!isMember} />}
-          {view === "members" && (
+          {view === 'books' && <BooksManager management={!isMember} />}
+          {view === 'members' && (
             <MembersManager
               rows={memberRows}
               setRows={setMemberRows}
@@ -193,8 +193,8 @@ export function Workspace({
               setAddOpen={setAddOpen}
             />
           )}
-          {view === "programs" && <ProgramsManager />}
-          {view === "profile" && <ProfileManager />}
+          {view === 'programs' && <ProgramsManager />}
+          {view === 'profile' && <ProfileManager />}
         </div>
       </main>
     </div>
@@ -202,19 +202,19 @@ export function Workspace({
 }
 
 function Overview({ role, loanRows }: { role: Role; loanRows: typeof loans }) {
-  const active = loanRows.filter((loan) => loan.status !== "returned");
-  const overdue = active.filter((loan) => loan.status === "overdue");
-  const dueSoon = active.filter((loan) => loan.status === "due-soon");
+  const active = loanRows.filter((loan) => loan.status !== 'returned');
+  const overdue = active.filter((loan) => loan.status === 'overdue');
+  const dueSoon = active.filter((loan) => loan.status === 'due-soon');
   const queue = [
     ...overdue,
     ...dueSoon,
-    ...active.filter((loan) => loan.status === "borrowed"),
+    ...active.filter((loan) => loan.status === 'borrowed'),
   ];
   const transactionRoute =
-    role === "admin" ? "/admin/transaksi" : "/pustakawan/transaksi";
+    role === 'admin' ? '/admin/transaksi' : '/pustakawan/transaksi';
   return (
     <>
-      <p className="eyebrow">Selamat datang, {names[role].split(" ")[0]}</p>
+      <p className="eyebrow">Selamat datang, {names[role].split(' ')[0]}</p>
       <h1 className="mt-3 max-w-2xl text-4xl font-semibold leading-[1.08] tracking-[-.055em] text-primary sm:text-5xl">
         Yang perlu diperhatikan hari ini.
       </h1>
@@ -231,7 +231,7 @@ function Overview({ role, loanRows }: { role: Role; loanRows: typeof loans }) {
           </div>
           <div className="mt-9">
             <p className="text-6xl font-semibold tracking-[-.07em] text-primary tabular-nums">
-              {overdue.length.toString().padStart(2, "0")}
+              {overdue.length.toString().padStart(2, '0')}
             </p>
             <h2 className="mt-2 text-2xl font-semibold tracking-tight text-primary">
               Pinjaman terlambat
@@ -251,7 +251,7 @@ function Overview({ role, loanRows }: { role: Role; loanRows: typeof loans }) {
               Pinjaman berjalan
             </p>
             <p className="mt-5 text-4xl font-semibold tracking-tight text-primary tabular-nums">
-              {active.length.toString().padStart(2, "0")}
+              {active.length.toString().padStart(2, '0')}
             </p>
             <p className="mt-2 text-xs text-muted-foreground">
               {dueSoon.length} segera jatuh tempo
@@ -263,9 +263,9 @@ function Overview({ role, loanRows }: { role: Role; loanRows: typeof loans }) {
             </p>
             <p className="mt-5 text-4xl font-semibold tracking-tight text-primary tabular-nums">
               {members
-                .filter((member) => member.status === "active")
+                .filter((member) => member.status === 'active')
                 .length.toString()
-                .padStart(2, "0")}
+                .padStart(2, '0')}
             </p>
             <p className="mt-2 text-xs text-muted-foreground">
               {books.length} judul dalam katalog
@@ -310,7 +310,7 @@ function Overview({ role, loanRows }: { role: Role; loanRows: typeof loans }) {
             harus unik.
           </p>
           <Link
-            href={role === "admin" ? "/admin/anggota" : "/pustakawan/anggota"}
+            href={role === 'admin' ? '/admin/anggota' : '/pustakawan/anggota'}
             className="link-arrow mt-6 text-sm"
           >
             Buka data anggota <ArrowUpRight size={16} />
@@ -331,7 +331,7 @@ function LoanRow({
   const member = members.find((item) => item.id === loan.memberId);
   return (
     <div
-      className={`flex flex-wrap items-center justify-between gap-3 rounded-lg border ink-rule p-4 sm:p-5 ${loan.status === "overdue" ? "bg-[#fff6f2] dark:bg-[#4b302e]" : "bg-card"}`}
+      className={`flex flex-wrap items-center justify-between gap-3 rounded-lg border ink-rule p-4 sm:p-5 ${loan.status === 'overdue' ? 'bg-[#fff6f2] dark:bg-[#4b302e]' : 'bg-card'}`}
     >
       <div>
         <p className="text-base font-semibold text-primary sm:text-lg">
@@ -343,7 +343,7 @@ function LoanRow({
       </div>
       <div className="flex flex-wrap items-center gap-3">
         <StatusBadge status={loan.status} />
-        {onReturn && loan.status !== "returned" && (
+        {onReturn && loan.status !== 'returned' && (
           <button
             onClick={onReturn}
             className="min-h-9 rounded-md border border-primary px-3 text-xs font-semibold text-primary hover:bg-secondary"
@@ -366,27 +366,27 @@ function Loans({
 }) {
   const priority: Record<string, number> = {
     overdue: 0,
-    "due-soon": 1,
+    'due-soon': 1,
     borrowed: 2,
     returned: 3,
   };
   const sorted = [...rows].sort(
     (a, b) => (priority[a.status] ?? 4) - (priority[b.status] ?? 4),
   );
-  const open = rows.filter((loan) => loan.status !== "returned").length;
-  const overdue = rows.filter((loan) => loan.status === "overdue").length;
+  const open = rows.filter((loan) => loan.status !== 'returned').length;
+  const overdue = rows.filter((loan) => loan.status === 'overdue').length;
   return (
     <>
       <p className="eyebrow">
-        {isMember ? "Riwayat pribadi" : "Meja sirkulasi"}
+        {isMember ? 'Riwayat pribadi' : 'Meja sirkulasi'}
       </p>
       <h1 className="mt-3 text-4xl font-semibold tracking-tight text-primary sm:text-5xl">
-        {isMember ? "Pinjaman saya" : "Pinjam & kembali"}
+        {isMember ? 'Pinjaman saya' : 'Pinjam & kembali'}
       </h1>
       <p className="mt-3 max-w-xl text-sm leading-7 text-muted-foreground">
         {isMember
-          ? "Pantau tanggal pengembalian dan riwayat buku yang pernah kamu bawa pulang."
-          : "Periksa status peminjaman dan selesaikan pengembalian dengan jelas."}
+          ? 'Pantau tanggal pengembalian dan riwayat buku yang pernah kamu bawa pulang.'
+          : 'Periksa status peminjaman dan selesaikan pengembalian dengan jelas.'}
       </p>
       <div className="mt-9 flex flex-wrap gap-x-8 gap-y-2 border-y ink-rule py-4 text-xs font-semibold text-muted-foreground">
         <span>
@@ -394,7 +394,7 @@ function Loans({
           berjalan
         </span>
         <span>
-          <strong className="text-destructive tabular-nums">{overdue}</strong>{" "}
+          <strong className="text-destructive tabular-nums">{overdue}</strong>{' '}
           terlambat
         </span>
         <span>{rows.length} transaksi tercatat</span>
@@ -419,8 +419,8 @@ function Loans({
 function BooksManager({ management }: { management: boolean }) {
   const [rows, setRows] = useState<Book[]>(books);
   const [open, setOpen] = useState(false);
-  const [title, setTitle] = useState("");
-  const [author, setAuthor] = useState("");
+  const [title, setTitle] = useState('');
+  const [author, setAuthor] = useState('');
   const addBook = () => {
     if (!title || !author) return;
     setRows((current) => [
@@ -429,19 +429,19 @@ function BooksManager({ management }: { management: boolean }) {
         id: `book-${Date.now()}`,
         title,
         author,
-        category: "Belum dikategorikan",
-        isbn: "Belum diisi",
+        category: 'Belum dikategorikan',
+        isbn: 'Belum diisi',
         coverUrl: books[0].coverUrl,
         stock: 1,
         availableStock: 1,
         publishedYear: 2026,
-        synopsis: "Data katalog baru yang menunggu dilengkapi.",
-        createdAt: "2026-09-27",
+        synopsis: 'Data katalog baru yang menunggu dilengkapi.',
+        createdAt: '2026-09-27',
       },
     ]);
     setOpen(false);
-    setTitle("");
-    setAuthor("");
+    setTitle('');
+    setAuthor('');
   };
   return (
     <>
@@ -588,34 +588,34 @@ function MembersManager({
   addOpen: boolean;
   setAddOpen: (open: boolean) => void;
 }) {
-  const [error, setError] = useState("");
-  const [name, setName] = useState("");
-  const [code, setCode] = useState("");
+  const [error, setError] = useState('');
+  const [name, setName] = useState('');
+  const [code, setCode] = useState('');
   const submit = () => {
-    if (!name || !code) return setError("Nama dan ID anggota wajib diisi.");
+    if (!name || !code) return setError('Nama dan ID anggota wajib diisi.');
     if (
       rows.some(
         (member) => member.memberCode.toLowerCase() === code.toLowerCase(),
       )
     )
-      return setError("ID anggota sudah dipakai. Gunakan kode yang berbeda.");
+      return setError('ID anggota sudah dipakai. Gunakan kode yang berbeda.');
     setRows([
       ...rows,
       {
         id: `member-${Date.now()}`,
         name,
         memberCode: code,
-        contact: "—",
-        address: "—",
-        joinDate: "2026-09-27",
-        status: "active",
-        createdAt: "2026-09-27",
+        contact: '—',
+        address: '—',
+        joinDate: '2026-09-27',
+        status: 'active',
+        createdAt: '2026-09-27',
       },
     ]);
     setAddOpen(false);
-    setName("");
-    setCode("");
-    setError("");
+    setName('');
+    setCode('');
+    setError('');
   };
   return (
     <>
@@ -661,7 +661,7 @@ function MembersManager({
                     loans.filter(
                       (loan) =>
                         loan.memberId === member.id &&
-                        loan.status !== "returned",
+                        loan.status !== 'returned',
                     ).length
                   }
                 </td>
@@ -725,8 +725,8 @@ function MembersManager({
   );
 }
 function ProfileManager() {
-  const [name, setName] = useState("Siti Rahma");
-  const [contact, setContact] = useState("0812-5550-0188");
+  const [name, setName] = useState('Siti Rahma');
+  const [contact, setContact] = useState('0812-5550-0188');
   const [saved, setSaved] = useState(false);
   return (
     <>

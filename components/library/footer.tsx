@@ -1,12 +1,14 @@
-import Link from "next/link";
-import { BookOpen, MapPin } from "lucide-react";
+import { BookOpen, MapPin } from 'lucide-react';
+import Link from 'next/link';
+import { OpenStatus } from './open-status';
+import { openingHoursLabel, siteAddress } from '@/lib/site';
 
 const links = [
-  { label: "Koleksi buku", href: "/buku" },
-  { label: "Kegiatan", href: "/kegiatan" },
-  { label: "Program kerja", href: "/proker" },
-  { label: "Galeri", href: "/galeri" },
-  { label: "Ruang anggota", href: "/dashboard" },
+  { label: 'Koleksi buku', href: '/buku' },
+  { label: 'Kegiatan', href: '/kegiatan' },
+  { label: 'Program kerja', href: '/proker' },
+  { label: 'Galeri', href: '/galeri' },
+  { label: 'Ruang anggota', href: '/dashboard' },
 ];
 
 export function Footer() {
@@ -22,7 +24,7 @@ export function Footer() {
               <BookOpen size={16} strokeWidth={1.8} />
             </span>
             <span className="text-lg font-bold tracking-[-.04em]">
-              ruang baca desa.
+              Perpustakaan Pusakanagara
             </span>
           </Link>
           <p className="mt-3 max-w-sm text-sm leading-6 text-muted-foreground">
@@ -53,17 +55,18 @@ export function Footer() {
               strokeWidth={1.8}
             />
             <p className="text-xl font-semibold tracking-[-.04em]">
-              Balai Desa Sukamaju
+              {siteAddress}
             </p>
           </div>
           <p className="mt-3 text-sm leading-6 text-muted-foreground">
             Pintu kami terbuka untukmu.
           </p>
           <p className="mt-3 text-xs leading-5 text-muted-foreground">
-            Senin–Jumat · 08.00–15.00
-            <br />
-            Sabtu · 08.00–12.00
+            {openingHoursLabel}
           </p>
+          <div className="mt-2">
+            <OpenStatus />
+          </div>
         </address>
       </div>
     </footer>
