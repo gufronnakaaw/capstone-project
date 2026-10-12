@@ -48,7 +48,7 @@ export function SiteHeader() {
             <BookOpen size={19} strokeWidth={1.8} />
           </span>
           <span className="text-[1.05rem] font-bold tracking-[-.04em]">
-            ruang baca<span className="text-muted-foreground"> desa.</span>
+            Pusakanagara<span className="text-muted-foreground">.</span>
           </span>
         </Link>
 
