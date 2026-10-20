@@ -13,7 +13,7 @@ const display = Lora({
 });
 
 export const metadata: Metadata = {
-  title: "Ruang Baca Desa | Perpustakaan Desa",
+  title: "Ruang Baca Desa Pusakanagara | Perpustakaan Desa",
   description:
     "Sistem informasi Perpustakaan Desa untuk buku, kegiatan, dan layanan warga.",
 };

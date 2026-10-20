@@ -24,7 +24,7 @@ export function Footer() {
               <BookOpen size={16} strokeWidth={1.8} />
             </span>
             <span className="text-lg font-bold tracking-[-.04em]">
-              Perpustakaan Pusakanagara
+              Perpustakaan Pusaka Aksara
             </span>
           </Link>
           <p className="mt-3 max-w-sm text-sm leading-6 text-muted-foreground">

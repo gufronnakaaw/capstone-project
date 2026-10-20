@@ -50,7 +50,7 @@ export function MemberWorkspace({ view }: { view: MemberView }) {
             <span className="grid size-8 place-items-center rounded-lg bg-primary text-primary-foreground">
               <BookOpen size={17} />
             </span>
-            Pusakanagara.
+            Pusaka Aksara.
           </Link>
           <Link
             href="/dashboard/profil"

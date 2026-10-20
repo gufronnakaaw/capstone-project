@@ -115,7 +115,7 @@ export function Workspace({
           <span className="grid size-9 place-items-center rounded-lg bg-primary text-primary-foreground">
             <BookOpenCheck size={19} />
           </span>
-          Pusakanagara.
+          Pusaka Aksara.
         </Link>
         <p className="mt-8 px-3 text-[10px] font-bold uppercase tracking-[.15em] text-muted-foreground">
           {label}

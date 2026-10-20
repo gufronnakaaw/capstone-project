@@ -42,13 +42,13 @@ export function SiteHeader() {
         <Link
           href="/"
           className="flex shrink-0 items-center gap-2.5 text-primary"
-          aria-label="Ruang Baca Desa, beranda"
+          aria-label="Pusaka Aksara, beranda"
         >
           <span className="grid size-9 place-items-center rounded-lg bg-primary text-primary-foreground">
             <BookOpen size={19} strokeWidth={1.8} />
           </span>
           <span className="text-[1.05rem] font-bold tracking-[-.04em]">
-            Pusakanagara<span className="text-muted-foreground">.</span>
+            Pusaka Aksara<span className="text-muted-foreground">.</span>
           </span>
         </Link>
 
