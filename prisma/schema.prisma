@@ -1,0 +1,180 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum MemberStatus {
+  ACTIVE
+  INACTIVE
+
+  @@map("member_status")
+}
+
+enum LoanStatus {
+  BORROWED
+  DUE_SOON
+  OVERDUE
+  RETURNED
+
+  @@map("loan_status")
+}
+
+enum WorkProgramStatus {
+  PLANNED
+  ONGOING
+  COMPLETED
+
+  @@map("work_program_status")
+}
+
+enum UserRole {
+  ADMIN
+  LIBRARIAN
+  MEMBER
+
+  @@map("user_role")
+}
+
+model Category {
+  id         String    @id @default(cuid())
+  name       String
+  slug       String
+  sort_order Int       @default(0)
+  created_at DateTime  @default(now()) @db.Timestamptz(3)
+  updated_at DateTime  @updatedAt @db.Timestamptz(3)
+  deleted_at DateTime? @db.Timestamptz(3)
+  books      Book[]
+
+  @@map("categories")
+}
+
+model Book {
+  id              String    @id @default(cuid())
+  title           String
+  author          String
+  category_id     String?
+  isbn            String?
+  cover_url       String
+  stock           Int       @default(1)
+  available_stock Int       @default(1)
+  published_year  Int
+  synopsis        String    @db.Text
+  created_at      DateTime  @default(now()) @db.Timestamptz(3)
+  updated_at      DateTime  @updatedAt @db.Timestamptz(3)
+  deleted_at      DateTime? @db.Timestamptz(3)
+  category        Category? @relation(fields: [category_id], references: [id], onDelete: SetNull)
+  loans           Loan[]
+
+  @@index([category_id])
+  @@map("books")
+}
+
+model Member {
+  id          String       @id @default(cuid())
+  name        String
+  member_code String
+  contact     String
+  address     String
+  join_date   DateTime     @db.Timestamptz(3)
+  status      MemberStatus @default(ACTIVE)
+  created_at  DateTime     @default(now()) @db.Timestamptz(3)
+  updated_at  DateTime     @updatedAt @db.Timestamptz(3)
+  deleted_at  DateTime?    @db.Timestamptz(3)
+  loans       Loan[]
+  users       User[]
+
+  @@map("members")
+}
+
+model User {
+  id            String    @id @default(cuid())
+  name          String
+  email         String
+  password_hash String?
+  role          UserRole  @default(MEMBER)
+  is_active     Boolean   @default(true)
+  member_id     String?
+  created_at    DateTime  @default(now()) @db.Timestamptz(3)
+  updated_at    DateTime  @updatedAt @db.Timestamptz(3)
+  deleted_at    DateTime? @db.Timestamptz(3)
+  member        Member?   @relation(fields: [member_id], references: [id], onDelete: SetNull)
+
+  @@map("users")
+}
+
+model Loan {
+  id          String     @id @default(cuid())
+  book_id     String
+  member_id   String
+  borrowed_at DateTime   @db.Timestamptz(3)
+  due_at      DateTime   @db.Timestamptz(3)
+  returned_at DateTime?  @db.Timestamptz(3)
+  status      LoanStatus @default(BORROWED)
+  created_at  DateTime   @default(now()) @db.Timestamptz(3)
+  updated_at  DateTime   @updatedAt @db.Timestamptz(3)
+  deleted_at  DateTime?  @db.Timestamptz(3)
+  book        Book       @relation(fields: [book_id], references: [id], onDelete: Restrict)
+  member      Member     @relation(fields: [member_id], references: [id], onDelete: Restrict)
+
+  @@index([member_id])
+  @@index([book_id])
+  @@index([status])
+  @@map("loans")
+}
+
+model Activity {
+  id               String    @id @default(cuid())
+  title            String
+  slug             String
+  date             DateTime  @db.Timestamptz(3)
+  description      String    @db.Text
+  full_description String    @db.Text
+  cover_photo_id   String?
+  created_at       DateTime  @default(now()) @db.Timestamptz(3)
+  updated_at       DateTime  @updatedAt @db.Timestamptz(3)
+  deleted_at       DateTime? @db.Timestamptz(3)
+  cover_photo      Photo?    @relation("ActivityCover", fields: [cover_photo_id], references: [id], onDelete: SetNull)
+  photos           Photo[]   @relation("ActivityPhotos")
+
+  @@index([date])
+  @@map("activities")
+}
+
+model Photo {
+  id                  String     @id @default(cuid())
+  url                 String
+  caption             String
+  related_activity_id String?
+  sort_order          Int        @default(0)
+  created_at          DateTime   @default(now()) @db.Timestamptz(3)
+  updated_at          DateTime   @updatedAt @db.Timestamptz(3)
+  deleted_at          DateTime?  @db.Timestamptz(3)
+  activity            Activity?  @relation("ActivityPhotos", fields: [related_activity_id], references: [id], onDelete: SetNull)
+  cover_of            Activity[] @relation("ActivityCover")
+
+  @@index([related_activity_id])
+  @@index([created_at])
+  @@map("photos")
+}
+
+model WorkProgram {
+  id          String            @id @default(cuid())
+  title       String
+  description String            @db.Text
+  period      String
+  start_date  DateTime?         @db.Timestamptz(3)
+  end_date    DateTime?         @db.Timestamptz(3)
+  status      WorkProgramStatus @default(PLANNED)
+  progress    Int               @default(0)
+  created_at  DateTime          @default(now()) @db.Timestamptz(3)
+  updated_at  DateTime          @updatedAt @db.Timestamptz(3)
+  deleted_at  DateTime?         @db.Timestamptz(3)
+
+  @@index([status])
+  @@index([start_date])
+  @@map("work_programs")
+}
