@@ -180,7 +180,7 @@ export function Catalog({
                 >
                   {borrowed === selected.id ? (
                     <>
-                      <Check size={16} /> Permintaan tercatat
+                      <Check size={16} /> Pinjaman tercatat
                     </>
                   ) : selected.availableStock ? (
                     "Pinjam buku ini"
