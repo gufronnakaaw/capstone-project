@@ -1,4 +1,5 @@
 import "dotenv/config";
+import bcrypt from "bcryptjs";
 import { PrismaPg } from "@prisma/adapter-pg";
 import { PrismaClient } from "../generated/prisma/client";
 import {
@@ -61,6 +62,31 @@ for (const activity of activities) {
   activity.photoIds.forEach((photoId, index) => {
     if (!photoOrder.has(photoId)) photoOrder.set(photoId, index);
   });
+}
+
+async function seedAdmin() {
+  const email = process.env.ADMIN_EMAIL?.trim().toLowerCase();
+  const password = process.env.ADMIN_PASSWORD;
+  if (!email || !password) {
+    throw new Error("ADMIN_EMAIL dan ADMIN_PASSWORD wajib diisi di .env");
+  }
+
+  const password_hash = await bcrypt.hash(password, 10);
+  const existing = await prisma.user.findFirst({
+    where: { email, deleted_at: null },
+    select: { id: true },
+  });
+
+  if (existing) {
+    await prisma.user.update({
+      where: { id: existing.id },
+      data: { password_hash, role: "ADMIN", is_active: true },
+    });
+  } else {
+    await prisma.user.create({
+      data: { name: "Administrator", email, password_hash, role: "ADMIN" },
+    });
+  }
 }
 
 async function main() {
@@ -160,6 +186,8 @@ async function main() {
       created_at: date(proker.createdAt),
     })),
   });
+
+  await seedAdmin();
 
   console.log(
     `Seed selesai: ${books.length} buku, ${members.length} anggota, ${loans.length} pinjaman, ${activities.length} kegiatan, ${photos.length} foto, ${prokers.length} proker.`,
