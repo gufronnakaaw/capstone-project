@@ -136,7 +136,8 @@ export const formatDate = (date: string) =>
     day: "numeric",
     month: "long",
     year: "numeric",
-  }).format(new Date(`${date}T00:00:00`));
+    timeZone: "Asia/Jakarta",
+  }).format(date.includes("T") ? new Date(date) : new Date(`${date}T00:00:00+07:00`));
 export const Location = () => (
   <span className="inline-flex items-center gap-1 text-xs font-bold text-muted-foreground">
     <MapPin size={13} />

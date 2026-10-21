@@ -1,16 +1,14 @@
 import { Footer } from '@/components/library/footer';
 import { SiteHeader } from '@/components/library/site-header';
 import { ProkerCard, formatDate } from '@/components/library/ui';
-import { libraryService } from '@/lib/services/library-service';
+import { HomeHeroCarousel } from '@/components/library/home-hero-carousel';
+import { getHomeData } from '@/lib/services/public-library';
 import { ArrowRight, ArrowUpRight } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 
-export default function Home() {
-  const photos = libraryService.getPhotos();
-  const activities = libraryService.getActivities();
-  const programs = libraryService.getProkers();
-  const heroPhoto = photos[2] ?? photos[0];
+export default async function Home() {
+  const { photos, heroPhotos, activities, programs } = await getHomeData();
 
   return (
     <div className="min-h-screen overflow-x-clip">
@@ -41,27 +39,7 @@ export default function Home() {
                 </div>
               </div>
             </div>
-            <div className="relative min-h-[360px] overflow-hidden bg-secondary sm:min-h-[450px] lg:min-h-0">
-              {heroPhoto && (
-                <Image
-                  src={heroPhoto.url}
-                  alt={heroPhoto.caption}
-                  fill
-                  loading="eager"
-                  sizes="(max-width: 1024px) 100vw, 50vw"
-                  className="object-cover object-center"
-                />
-              )}
-              <div className="absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-[#17342f]/80 to-transparent" />
-              <div className="absolute inset-x-6 bottom-6 flex items-end justify-between gap-4 text-white sm:inset-x-9 sm:bottom-9">
-                <p className="max-w-52 text-sm font-semibold leading-6">
-                  {heroPhoto?.caption}
-                </p>
-                <span className="rounded-full border border-white/60 px-3 py-1.5 text-[10px] font-bold uppercase tracking-[.12em]">
-                  01 / 07
-                </span>
-              </div>
-            </div>
+            <HomeHeroCarousel photos={heroPhotos} />
           </div>
         </section>
 
