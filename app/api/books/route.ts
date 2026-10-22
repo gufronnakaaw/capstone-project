@@ -8,6 +8,8 @@ import { bookCreate, bookQuery } from "@/lib/validators/book";
 
 type BookWhere = NonNullable<Parameters<typeof prisma.book.findMany>[0]>["where"];
 
+const DEFAULT_BOOK_COVER = "https://images.unsplash.com/photo-1544947950-fa07a98d237f?auto=format&fit=crop&w=1200&q=82";
+
 export const GET = apiRoute(async (request) => {
   const { page, page_size, q, category_id, available } = readQuery(request, bookQuery);
 
@@ -57,6 +59,7 @@ export const POST = apiRoute(async (request) => {
       ...body,
       category_id: body.category_id ?? null,
       isbn: body.isbn ?? null,
+      cover_url: body.cover_url ?? DEFAULT_BOOK_COVER,
       available_stock: body.stock,
     },
     include: { category: { select: categorySelect } },

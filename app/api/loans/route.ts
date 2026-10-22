@@ -9,11 +9,12 @@ import { loanCreate, loanQuery } from "@/lib/validators/loan";
 type LoanWhere = NonNullable<Parameters<typeof prisma.loan.findMany>[0]>["where"];
 
 export const GET = apiRoute(async (request) => {
-  const { page, page_size, q, status } = readQuery(request, loanQuery);
+  const { page, page_size, q, status, active } = readQuery(request, loanQuery);
   await syncLoanStatuses();
 
   const where: LoanWhere = {
     deleted_at: null,
+    ...(active === "true" ? { returned_at: null } : {}),
     ...(status ? { status } : {}),
     ...(q
       ? {

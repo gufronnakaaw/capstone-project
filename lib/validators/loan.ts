@@ -9,4 +9,5 @@ export const loanCreate = z.object({
 export const loanQuery = pagination.extend({
   q: optionalSearch,
   status: loanStatusEnum.optional(),
+  active: z.enum(["true", "false"]).optional(),
 });

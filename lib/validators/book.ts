@@ -6,7 +6,7 @@ export const bookCreate = z.object({
   author: text(150),
   category_id: z.string().min(1).nullish(),
   isbn: text(20).nullish(),
-  cover_url: z.url(),
+  cover_url: z.url().optional(),
   stock: z.number().int().min(0).max(100000),
   published_year: z.number().int().min(1000).max(2100),
   synopsis: text(5000),
