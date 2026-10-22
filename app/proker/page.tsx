@@ -3,10 +3,12 @@ import { ArrowUpRight } from "lucide-react";
 import { SiteHeader } from "@/components/library/site-header";
 import { Footer } from "@/components/library/footer";
 import { StatusBadge } from "@/components/library/ui";
-import { libraryService } from "@/lib/services/library-service";
+import { getPublicProkers } from "@/lib/services/public-library";
 
-export default function ProkerPage() {
-  const programs = libraryService.getProkers();
+export const revalidate = 60;
+
+export default async function ProkerPage() {
+  const programs = await getPublicProkers();
   return (
     <>
       <SiteHeader />

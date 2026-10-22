@@ -3,7 +3,7 @@ import Link from "next/link";
 import { ArrowLeft, ArrowUpRight } from "lucide-react";
 import { SiteHeader } from "@/components/library/site-header";
 import { Footer } from "@/components/library/footer";
-import { libraryService } from "@/lib/services/library-service";
+import { getPublicBook } from "@/lib/services/public-library";
 
 export default async function BookDetail({
   params,
@@ -11,7 +11,7 @@ export default async function BookDetail({
   params: Promise<{ id: string }>;
 }) {
   const { id } = await params;
-  const book = libraryService.getBook(id);
+  const book = await getPublicBook(id);
   if (!book)
     return (
       <>

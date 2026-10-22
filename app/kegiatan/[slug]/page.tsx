@@ -4,7 +4,7 @@ import { ArrowLeft, CalendarDays } from "lucide-react";
 import { SiteHeader } from "@/components/library/site-header";
 import { Footer } from "@/components/library/footer";
 import { formatDate } from "@/components/library/ui";
-import { libraryService } from "@/lib/services/library-service";
+import { getPublicActivity, getPublicPhotos } from "@/lib/services/public-library";
 
 export default async function ActivityDetail({
   params,
@@ -12,8 +12,7 @@ export default async function ActivityDetail({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
-  const activity = libraryService.getActivity(slug);
-  const allPhotos = libraryService.getPhotos();
+  const [activity, allPhotos] = await Promise.all([getPublicActivity(slug), getPublicPhotos()]);
   if (!activity)
     return (
       <>

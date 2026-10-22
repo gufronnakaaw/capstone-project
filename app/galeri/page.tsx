@@ -3,11 +3,12 @@ import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
 import { SiteHeader } from "@/components/library/site-header";
 import { Footer } from "@/components/library/footer";
-import { libraryService } from "@/lib/services/library-service";
+import { getPublicActivities, getPublicPhotos } from "@/lib/services/public-library";
 
-export default function GalleryPage() {
-  const photos = libraryService.getPhotos();
-  const activities = libraryService.getActivities();
+export const revalidate = 60;
+
+export default async function GalleryPage() {
+  const [photos, activities] = await Promise.all([getPublicPhotos(), getPublicActivities()]);
   return (
     <>
       <SiteHeader />

@@ -1,8 +1,13 @@
 import { SiteHeader } from "@/components/library/site-header";
 import { PublicBookList } from "@/components/library/public-book-list";
 import { Footer } from "@/components/library/footer";
-import { libraryService } from "@/lib/services/library-service";
-export default function BooksPage() {
+import { getCatalogBooks } from "@/lib/services/public-library";
+
+export const revalidate = 60;
+
+export default async function BooksPage() {
+  const books = await getCatalogBooks();
+
   return (
     <>
       <SiteHeader />
@@ -18,12 +23,12 @@ export default function BooksPage() {
             </h1>
           </div>
           <p className="max-w-md text-sm leading-7 text-muted-foreground lg:justify-self-end">
-            Cari berdasarkan judul atau penulis, lalu lihat ketersediaannya
-            sebelum datang ke perpustakaan.
+            Cari berdasarkan judul atau penulis, lalu lihat ketersediaannya sebelum datang ke
+            perpustakaan.
           </p>
         </div>
         <div className="mt-4">
-          <PublicBookList books={libraryService.getBooks()} />
+          <PublicBookList initialBooks={books} />
         </div>
       </main>
       <Footer />

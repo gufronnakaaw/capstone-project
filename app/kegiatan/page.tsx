@@ -4,11 +4,12 @@ import { ArrowUpRight } from "lucide-react";
 import { SiteHeader } from "@/components/library/site-header";
 import { Footer } from "@/components/library/footer";
 import { formatDate } from "@/components/library/ui";
-import { libraryService } from "@/lib/services/library-service";
+import { getPublicActivities, getPublicPhotos } from "@/lib/services/public-library";
 
-export default function ActivitiesPage() {
-  const activities = libraryService.getActivities();
-  const photos = libraryService.getPhotos();
+export const revalidate = 60;
+
+export default async function ActivitiesPage() {
+  const [activities, photos] = await Promise.all([getPublicActivities(), getPublicPhotos()]);
   const featured = activities[0];
   const imageFor = (id: string) => photos.find((photo) => photo.id === id);
 
