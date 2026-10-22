@@ -1,4 +1,5 @@
-import { Workspace } from "@/components/library/workspace";
+import { MemberDashboard } from "@/components/dashboard/member-dashboard";
+
 export default function MemberLoans() {
-  return <Workspace role="member" view="loans" />;
+  return <MemberDashboard view="loans" />;
 }

@@ -1,4 +1,5 @@
-import { Workspace } from "@/components/library/workspace";
+import { StaffDashboard } from "@/components/dashboard/staff-dashboard";
+
 export default function LibrarianMembers() {
-  return <Workspace role="librarian" view="members" />;
+  return <StaffDashboard area="pustakawan" view="members" />;
 }

@@ -1,4 +1,5 @@
-import { Workspace } from "@/components/library/workspace";
+import { MemberDashboard } from "@/components/dashboard/member-dashboard";
+
 export default function MemberProfile() {
-  return <Workspace role="member" view="profile" />;
+  return <MemberDashboard view="profile" />;
 }

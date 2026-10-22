@@ -1,4 +1,5 @@
-import { Workspace } from "@/components/library/workspace";
+import { StaffDashboard } from "@/components/dashboard/staff-dashboard";
+
 export default function AdminBooks() {
-  return <Workspace role="admin" view="books" />;
+  return <StaffDashboard area="admin" view="books" />;
 }
